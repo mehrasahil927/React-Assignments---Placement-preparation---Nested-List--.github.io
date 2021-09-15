@@ -154,8 +154,51 @@ const states = [
   },
 ];
 
+function ListOfCities({ city, countC }) {
+  let countT = 1;
+  const [showTown, setShowTown] = useState(false);
+  return (
+    <>
+      <p onClick={() => setShowTown(!showTown)} id={"city" + countC}>
+        {city.name}
+      </p>
+      {showTown &&
+        city.towns.map((town) => {
+          return (
+            <p id={"town" + countT++} key={countT}>
+              {town.name}
+            </p>
+          );
+        })}
+    </>
+  );
+}
+
+function ListOfStates({ state, countS }) {
+  let countC = 1;
+  const [showCity, setShowCity] = useState(false);
+  return (
+    <>
+      <p onClick={() => setShowCity(!showCity)} id={"state" + countS}>
+        {state.name}
+      </p>
+      {showCity &&
+        state.cities.map((city) => {
+          return <ListOfCities city={city} countC={countC++} key={countC} />;
+        })}
+    </>
+  );
+}
+
 function App() {
-  return <div id="main"></div>;
+  let countS = 1;
+  return (
+    <div id="main">
+      {states.map((state) => {
+        return <ListOfStates state={state} countS={countS++} key={countS} />;
+      })}
+    </div>
+  );
 }
 
 export default App;
